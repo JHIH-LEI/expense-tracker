@@ -67,6 +67,14 @@ app.get('/record/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
+app.delete('/record/:id', (req, res) => {
+  const id = req.params.id
+  Record.findById(id)
+    .then(record => record.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
 app.listen(port, () => {
   console.log(`express is running on http://localhost:${port}`)
 })
