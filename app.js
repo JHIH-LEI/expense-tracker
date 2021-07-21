@@ -23,16 +23,19 @@ app.get('/', (req, res) => {
   Category.find()
     .lean()
     .then(category => categoryList = category)
-  Record.find()
-    .lean()
-    .then(records => {
-      records.forEach(rc => {
-        rc.date = moment(rc.date).format('MMMM d dddd, YYYY')
-        rc.icon = getIcon(rc.category, categoryList)
-      })
-      res.render('index', { records, categoryList })
+    .then(() => {
+      Record.find()
+        .lean()
+        .then(records => {
+          records.forEach(rc => {
+            rc.date = moment(rc.date).format('MMMM d dddd, YYYY')
+            rc.icon = getIcon(rc.category, categoryList)
+          })
+          res.render('index', { records, categoryList })
+        })
     })
     .catch(error => console.log(error))
+
 })
 
 app.get('/record/new', (req, res) => {
@@ -43,6 +46,7 @@ app.get('/record/new', (req, res) => {
       categoryList = category
       res.render('new', { categoryList })
     })
+    .catch(error => console.log(error))
 })
 
 app.post('/record/new', (req, res) => {
@@ -60,8 +64,8 @@ app.get('/record/:id/edit', (req, res) => {
       const time = dateFormat(record.date)
       res.render('edit', { record, time })
     })
+    .catch(error => console.log(error))
 })
-
 
 app.listen(port, () => {
   console.log(`express is running on http://localhost:${port}`)
