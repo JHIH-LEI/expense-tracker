@@ -9,7 +9,7 @@ db.once('open', () => {
     },
     {
       name: '交通出行',
-      icon: 'fas fa - shuttle - van'
+      icon: 'fas fa-shuttle-van'
     },
     {
       name: '休閒娛樂',
