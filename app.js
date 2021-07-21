@@ -27,11 +27,13 @@ app.get('/', (req, res) => {
       Record.find()
         .lean()
         .then(records => {
+          let totalAmount = 0
           records.forEach(rc => {
+            totalAmount += rc.amount
             rc.date = moment(rc.date).format('MMM Do , YYYY')
             rc.icon = getIcon(rc.category, categoryList)
           })
-          res.render('index', { records, categoryList })
+          res.render('index', { records, categoryList, totalAmount })
         })
     })
     .catch(error => console.log(error))
