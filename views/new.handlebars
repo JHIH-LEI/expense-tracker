@@ -1,6 +1,6 @@
 <div class="container d-flex flex-column align-items-center mt-3">
   <h2 class="mt-4">為你記下開支！</h2>
-  <form action="/new?_method=PUT" method="post" novalidate>
+  <form action="/expense/new?_method=PUT" method="post" novalidate>
     <input id="name" class="form-control my-4" type="text" name="name" placeholder="開支名稱" required>
     <input class="form-control my-4" name="category" list="category" placeholder="選擇支出類別..." required>
     <datalist id="category">

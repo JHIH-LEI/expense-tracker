@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.get('/new', (req, res) => {
+app.get('/expense/new', (req, res) => {
   let categoryList = []
   Category.find()
     .lean()
@@ -42,6 +42,8 @@ app.get('/new', (req, res) => {
       res.render('new', { categoryList })
     })
 })
+
+app.put('/expense/new')
 
 app.listen(port, () => {
   console.log(`express is running on http://localhost:${port}`)
