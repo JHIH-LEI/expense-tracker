@@ -6,6 +6,8 @@ const moment = require('moment')
 require('./config/mongoose')
 const Record = require('./models/record')
 const Category = require('./models/category')
+const category = require('./models/category')
+const { getIcon } = require('./public/javascripts/helper')
 const port = 3000
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
@@ -21,9 +23,9 @@ app.get('/', (req, res) => {
     .then(records => {
       records.forEach(rc => {
         rc.date = moment(rc.date).format('MMMM d dddd, YYYY')
+        rc.icon = getIcon(rc.category, categoryList)
       })
       res.render('index', { records, categoryList })
-      console.log(category)
     })
     .catch(error => console.log(error))
 })
