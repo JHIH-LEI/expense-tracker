@@ -3,6 +3,7 @@ const app = express()
 
 const exphbs = require('express-handlebars')
 const moment = require('moment')
+const methodOverride = require('method-override')
 require('./config/mongoose')
 const Record = require('./models/record')
 const Category = require('./models/category')
@@ -12,6 +13,8 @@ const port = 3000
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
+
+app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
   let categoryList = []
@@ -28,6 +31,16 @@ app.get('/', (req, res) => {
       res.render('index', { records, categoryList })
     })
     .catch(error => console.log(error))
+})
+
+app.get('/new', (req, res) => {
+  let categoryList = []
+  Category.find()
+    .lean()
+    .then(category => {
+      categoryList = category
+      res.render('new', { categoryList })
+    })
 })
 
 app.listen(port, () => {
