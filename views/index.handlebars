@@ -1,1 +1,48 @@
-<h1>QQQ</h1>
+<div class="container-fluid">
+    <div class="d-flex flex-column align-items-center mt-3">
+        {{!-- 類別篩選器 --}}
+        <div class="dropdown my-5">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                類別
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="#">休閒娛樂</a></li>
+            </ul>
+        </div>
+        {{!-- 總金額 --}}
+        <h4 id="total-amount" class="mb-5">總金額： <span>0</span></h4>
+        {{!-- 詳細支出 --}}
+        <ul id="expense-panel" class="list-group-horizontal">
+            <div class="row">
+                <li class="list-group-item bg-light">
+                    <div class="d-flex justify-content-between">
+                        <div class="info d-flex justify-content-between align-items-center">
+                            {{!-- 類別圖案 --}}
+                            <div class="category-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            {{!-- 支出明細 --}}
+                            <div class="text m-5">
+                                <div class="name fw-bold">晚餐</div>
+                                <div class="time">2020.02.01</div>
+                            </div>
+                        </div>
+                        {{!-- 支出金額 --}}
+                        <div class="amount m-auto">
+                            <h6>0</h6>
+                        </div>
+                        {{!-- 功能按鈕 --}}
+                        <div class="d-flex justify-content-between align-items-center ms-5">
+                            <a class="btn btn-success ms-2" href="#">edit</a>
+                            <a class="btn btn-danger ms-2" href="#">delete</a>
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </ul>
+        {{!-- 新增按鈕 --}}
+        <a class="btn btn-warning btn-lg fs-1 rounded-circle position-fixed bottom-0 mb-5 end-50%" href="#">記錄支出</a>
+    </div>
+</div>
