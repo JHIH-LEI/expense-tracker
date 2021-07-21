@@ -4,6 +4,7 @@ const app = express()
 const exphbs = require('express-handlebars')
 const moment = require('moment')
 const methodOverride = require('method-override')
+const bodyParser = require('body-parser')
 require('./config/mongoose')
 const Record = require('./models/record')
 const Category = require('./models/category')
@@ -15,6 +16,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
 app.use(methodOverride('_method'))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
   let categoryList = []
@@ -43,7 +45,13 @@ app.get('/expense/new', (req, res) => {
     })
 })
 
-app.put('/expense/new')
+app.put('/expense/new', (req, res) => {
+  const { name, date, category, amount } = req.body
+  return Record.create({ name, date, category, amount })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
 
 app.listen(port, () => {
   console.log(`express is running on http://localhost:${port}`)
