@@ -75,6 +75,21 @@ app.delete('/record/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
+app.put('/record/:id', (req, res) => {
+  const { name, date, category, amount } = req.body
+  const id = req.params.id
+  Record.findById(id)
+    .then(record => {
+      record.name = name
+      record.date = date
+      record.category = category
+      record.amount = amount
+      record.save()
+    })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
 app.listen(port, () => {
   console.log(`express is running on http://localhost:${port}`)
 })

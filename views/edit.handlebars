@@ -1,26 +1,26 @@
 <div class="container d-flex flex-column align-items-center mt-3">
   <h2 class="mt-4">為你記下開支！</h2>
-  <form action="/record/new?_method=PUT" method="post" class="needs-validation" novalidate>
-    <input id="name" class="form-control my-4" type="text" name="name" placeholder="開支名稱" value="{{record.name}}"
+  <form action="/record/{{ record._id }}?_method=PUT" method="post" class="needs-validation" novalidate>
+    <input id="name" class="form-control my-4" type="text" name="name" placeholder="開支名稱" value="{{ record.name }}"
       required>
-    <input class="form-control my-4" name="category" list="category" placeholder="選擇支出類別..." value="{{record.category}}"
-      required>
+    <input class="form-control my-4" name="category" list="category" placeholder="選擇支出類別..."
+      value="{{ record.category }}" required>
     <datalist id="category">
       {{#each categoryList}}
-      <option value="{{this.name}}">
+      <option value="{{ this.name }}">
         {{/each}}
     </datalist>
     <input id="date" class="form-control my-4" type="date" name="date" value="{{time}}">
     <div class=" input-group has-validation">
       <input class="form-control" type="number" name="amount" id="amount" inputmode="numeric" placeholder="支出總額" min="0"
-        pattern="[0-9]*" value="{{record.amount}}" required>
+        pattern="[0-9]*" value="{{ record.amount }}" required>
       <div class="has-validation invalid-feedback">
         請輸入總金額，並用數字表示，不可低於0元
       </div>
     </div>
     {{!-- 置中按鈕 --}}
     <div class="d-grid gap-2 col-6 mx-auto">
-      <button class="btn btn-primary my-4" type="submit">新增開支</button>
+      <button class="btn btn-success my-4" type="submit">編輯開支</button>
     </div>
   </form>
 </div>
