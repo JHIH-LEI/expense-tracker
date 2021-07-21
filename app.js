@@ -23,19 +23,16 @@ app.get('/', (req, res) => {
   Category.find()
     .lean()
     .then(category => categoryList = category)
-    .then(() => {
-      Record.find()
-        .lean()
-        .then(records => {
-          records.forEach(rc => {
-            rc.date = moment(rc.date).format('MMMM d dddd, YYYY')
-            rc.icon = getIcon(rc.category, categoryList)
-          })
-          res.render('index', { records, categoryList })
-        })
+  Record.find()
+    .lean()
+    .then(records => {
+      records.forEach(rc => {
+        rc.date = moment(rc.date).format('MMMM d dddd, YYYY')
+        rc.icon = getIcon(rc.category, categoryList)
+      })
+      res.render('index', { records, categoryList })
     })
     .catch(error => console.log(error))
-
 })
 
 app.get('/record/new', (req, res) => {
@@ -46,7 +43,6 @@ app.get('/record/new', (req, res) => {
       categoryList = category
       res.render('new', { categoryList })
     })
-    .catch(error => console.log(error))
 })
 
 app.post('/record/new', (req, res) => {
@@ -64,15 +60,6 @@ app.get('/record/:id/edit', (req, res) => {
       const time = dateFormat(record.date)
       res.render('edit', { record, time })
     })
-    .catch(error => console.log(error))
-})
-
-app.delete('/record/:id', (req, res) => {
-  const id = req.params.id
-  Record.findById(id)
-    .then(record => record.remove())
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
 })
 
 
