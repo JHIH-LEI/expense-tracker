@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
         .lean()
         .then(records => {
           records.forEach(rc => {
-            rc.date = moment(rc.date).format('MMMM d dddd, YYYY')
+            rc.date = moment(rc.date).format('MMM Do , YYYY')
             rc.icon = getIcon(rc.category, categoryList)
           })
           res.render('index', { records, categoryList })
