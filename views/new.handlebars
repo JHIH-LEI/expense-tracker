@@ -1,0 +1,22 @@
+<div class="container d-flex flex-column align-items-center mt-3">
+  <h2 class="mt-4">為你記下開支！</h2>
+  <form action="/new?_method=PUT" method="post" novalidate>
+    <input id="name" class="form-control my-4" type="text" name="name" placeholder="開支名稱" required>
+    <input class="form-control my-4" name="category" list="category" placeholder="選擇支出類別..." required>
+    <datalist id="category">
+      {{#each categoryList}}
+      <option value="{{this.name}}">
+        {{/each}}
+    </datalist>
+    <input id="date" class="form-control my-4" type="date" name="date">
+    <input class="form-control" type="number" name="amount" id="amount" inputmode="numeric" placeholder="支出總額" min="0"
+      pattern="[0-9]*" required>
+    <div class="invalid-feedback">
+      請輸入總金額，並用數字表示，不可低於0元
+    </div>
+    {{!-- 置中按鈕 --}}
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button class="btn btn-primary my-4" type="submit">新增開支</button>
+    </div>
+  </form>
+</div>
