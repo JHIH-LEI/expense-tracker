@@ -8,7 +8,9 @@
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item" href="#">休閒娛樂</a></li>
+                {{#each categoryList}}
+                <li><a class="dropdown-item" href="#">{{ this.name }}</a></li>
+                {{/each}}
             </ul>
         </div>
         {{!-- 總金額 --}}
