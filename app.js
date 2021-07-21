@@ -8,8 +8,8 @@ const bodyParser = require('body-parser')
 require('./config/mongoose')
 const Record = require('./models/record')
 const Category = require('./models/category')
-const category = require('./models/category')
 const { getIcon } = require('./public/javascripts/helper')
+const dateFormat = require('./tools/dateFormat')
 const port = 3000
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.get('/expense/new', (req, res) => {
+app.get('/record/new', (req, res) => {
   let categoryList = []
   Category.find()
     .lean()
@@ -45,11 +45,21 @@ app.get('/expense/new', (req, res) => {
     })
 })
 
-app.put('/expense/new', (req, res) => {
+app.post('/record/new', (req, res) => {
   const { name, date, category, amount } = req.body
   return Record.create({ name, date, category, amount })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
+})
+
+app.get('/record/:id/edit', (req, res) => {
+  const id = req.params.id
+  Record.findById(id)
+    .lean()
+    .then(record => {
+      const time = dateFormat(record.date)
+      res.render('edit', { record, time })
+    })
 })
 
 
