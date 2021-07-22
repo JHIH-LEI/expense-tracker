@@ -3,13 +3,12 @@
   <form action="/record/{{ record._id }}?_method=PUT" method="post" class="needs-validation" novalidate>
     <input id="name" class="form-control my-4" type="text" name="name" placeholder="開支名稱" value="{{ record.name }}"
       required>
-    <input class="form-control my-4" name="category" list="category" placeholder="選擇支出類別..."
-      value="{{ record.category }}" required>
-    <datalist id="category">
+    <select id="category" class="form-control my-4" name="category" placeholder="選擇支出類別..." required>
       {{#each categoryList}}
-      <option value="{{ this.name }}">
-        {{/each}}
-    </datalist>
+      <option value="{{ this.name }}">{{ this.name }}</option>
+      {{!-- 如果選擇的value跟這邊的value一樣，就選擇起來 --}}
+      {{/each}}
+    </select>
     <input id="date" class="form-control my-4" type="date" name="date" value="{{time}}">
     <div class=" input-group has-validation">
       <input class="form-control" type="number" name="amount" id="amount" inputmode="numeric" placeholder="支出總額" min="0"
