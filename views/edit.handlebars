@@ -5,7 +5,7 @@
       required>
     <select id="category" class="form-control my-4" name="category" placeholder="選擇支出類別..." required>
       {{#each categoryList}}
-      <option value="{{ this.name }}">{{ this.name }}</option>
+      <option value="{{ this.name }}" {{#is this.name ../record.category}} selected{{/is}}>{{ this.name }}</option>
       {{!-- 如果選擇的value跟這邊的value一樣，就選擇起來 --}}
       {{/each}}
     </select>
