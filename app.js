@@ -54,7 +54,28 @@ app.get('/', (req, res) => {
         })
     })
     .catch(error => console.log(error))
+})
 
+app.get('/:sortBy', (req, res) => {
+  const sortBy = req.params.sortBy
+  let categoryList = []
+  Category.find()
+    .lean()
+    .then(category => categoryList = category)
+    .then(() => {
+      Record.find({ category: sortBy })
+        .lean()
+        .then(records => {
+          let totalAmount = 0
+          records.forEach(rc => {
+            totalAmount += rc.amount
+            rc.date = moment(rc.date).format('MMM Do , YYYY')
+            rc.icon = getIcon(rc.category, categoryList)
+          })
+          res.render('index', { records, categoryList, totalAmount })
+        })
+    })
+    .catch(error => console.log(error))
 })
 
 app.get('/record/new', (req, res) => {
@@ -87,6 +108,7 @@ app.get('/record/:id/edit', (req, res) => {
       Record.findById(id)
         .lean()
         .then(record => {
+          console.log(record.date)
           const time = dateFormat(record.date)
           res.render('edit', { record, time, categoryList })
         })
@@ -96,9 +118,12 @@ app.get('/record/:id/edit', (req, res) => {
 
 app.delete('/record/:id', (req, res) => {
   const id = req.params.id
+  const url = req.headers.referer
+  const pathname = new URL(url).pathname
   Record.findById(id)
     .then(record => record.remove())
-    .then(() => res.redirect('/'))
+    // 返回上一頁，這樣才能避免篩選類別後，再刪除資料後，又回到全部類別
+    .then(() => res.redirect(pathname))
     .catch(error => console.log(error))
 })
 
