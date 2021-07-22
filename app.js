@@ -110,7 +110,7 @@ app.get('/record/:id/edit', (req, res) => {
         .then(record => {
           console.log(record.date)
           const time = dateFormat(record.date)
-          res.render('edit', { record, time, categoryList })
+          res.render('edit', { record, time, categoryList, iconsClass, error: req.flash('error'), success: req.flash('success') })
         })
     })
     .catch(error => console.log(error))
