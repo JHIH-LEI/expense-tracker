@@ -22,8 +22,12 @@
     <div class="category-rapper d-flex align-items-center">
       <select id="category" class="form-control my-4" name="category" required>
         <option value="" selected disabled hidden>請選擇{{type}}類別...</option>
+        {{!-- 只render出類別類型 === type（要新增的record類型）的類別選項 --}}
+        {{!-- 像是 render出 類別類型 支出 === 想要新增支出紀錄 的選項 --}}
         {{#each categoryList}}
+        {{#is ../type this.type}}
         <option value="{{ this.name }}">{{ this.name }}</option>
+        {{/is}}
         {{/each}}
       </select>
       <button type="button" class="btn btn-secondary mx-2 h-50" data-bs-toggle="modal" data-bs-target="#addCategory"
