@@ -22,6 +22,10 @@ db.once('open', () => {
     {
       name: '其他',
       icon: 'fas fa-pen'
+    },
+    {
+      name: '薪水',
+      type: 'income'
     }
   ]
   Category.create(data)
