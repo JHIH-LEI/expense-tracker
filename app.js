@@ -92,7 +92,9 @@ app.get('/record/new/:type', (req, res) => {
 
 app.post('/record/new', (req, res) => {
   const { name, date, category, amount } = req.body
-  return Record.create({ name, date, category, amount })
+  // 如果名稱是收入，就存正數，反之為支出，金額改為負數
+  let money = name === '收入' ? amount : 0 - amount
+  return Record.create({ name, date, category, amount: money })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
