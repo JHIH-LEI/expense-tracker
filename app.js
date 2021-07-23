@@ -43,6 +43,7 @@ app.get('/', (req, res) => {
     .then(() => {
       Record.find()
         .lean()
+        .sort({ date: 'desc' })
         .then(records => {
           let totalAmount = 0
           records.forEach(rc => {
@@ -65,6 +66,7 @@ app.get('/:sortBy', (req, res) => {
     .then(() => {
       Record.find({ category: sortBy })
         .lean()
+        .sort({ date: 'desc' })
         .then(records => {
           let totalAmount = 0
           records.forEach(rc => {
