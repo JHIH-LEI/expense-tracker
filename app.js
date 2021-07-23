@@ -78,26 +78,30 @@ app.get('/:sortBy', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.get('/record/new', (req, res) => {
+app.get('/record/new/:type', (req, res) => {
+  const type = req.params.type
   let categoryList = []
   Category.find()
     .lean()
     .then(category => {
       categoryList = category
-      res.render('new', { categoryList, iconsClass, error: req.flash('error'), success: req.flash('success') })
+      res.render('new', { type, categoryList, iconsClass, error: req.flash('error'), success: req.flash('success') })
     })
     .catch(error => console.log(error))
 })
 
 app.post('/record/new', (req, res) => {
   const { name, date, category, amount } = req.body
-  return Record.create({ name, date, category, amount })
+  // 如果名稱是收入，就存正數，反之為支出，金額改為負數
+  let money = name === '收入' ? amount : 0 - amount
+  return Record.create({ name, date, category, amount: money })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 
-app.get('/record/:id/edit', (req, res) => {
+app.get('/record/:id/edit/:type', (req, res) => {
   const id = req.params.id
+  const type = req.params.type
   let categoryList = []
   Category.find()
     .lean()
@@ -108,9 +112,11 @@ app.get('/record/:id/edit', (req, res) => {
       Record.findById(id)
         .lean()
         .then(record => {
-          console.log(record.date)
+          // 金額都是正的，所以在render編輯頁前要先把支出的負數拿掉
+          let money = 0
+          money = record.amount < 0 ? record.amount * -1 : record.amount
           const time = dateFormat(record.date)
-          res.render('edit', { record, time, categoryList, iconsClass, error: req.flash('error'), success: req.flash('success') })
+          res.render('edit', { type, record, money, time, categoryList, iconsClass, error: req.flash('error'), success: req.flash('success') })
         })
     })
     .catch(error => console.log(error))
@@ -127,22 +133,29 @@ app.delete('/record/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.put('/record/:id', (req, res) => {
+app.put('/record/:type/:id', (req, res) => {
+  // 修改資料前，將支出金額轉負，收入轉正
+  const type = req.params.type
   const { name, date, category, amount } = req.body
+  let money = 0
+  // 根據類別類型來調整金額正負(type為收入或支出)
+  money = type === '收入' ? amount : 0 - amount
   const id = req.params.id
   Record.findById(id)
     .then(record => {
       record.name = name
       record.date = date
       record.category = category
-      record.amount = amount
+      record.amount = money
       record.save()
     })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 
-app.post('/category', (req, res) => {
+app.post('/category/:type', (req, res) => {
+  // 類別類型
+  const type = req.params.type
   const newName = req.body.newCategory
   // icon的網址，取得使用者勾選的項目，其value(也就是類別圖示)
   const icon = req.body.icon
@@ -164,7 +177,7 @@ app.post('/category', (req, res) => {
         // 如果類別尚未存在
       } else {
         // 儲存新類別到資料庫，返回上一頁
-        Category.create({ name: newName, icon })
+        Category.create({ name: newName, icon, type: type })
           .then(() => {
             req.flash('success', `${newName}   已經新增到類別當中！`)
             res.redirect(pathname)

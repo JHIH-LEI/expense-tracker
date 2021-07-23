@@ -8,7 +8,13 @@ const categorySchema = new Schema({
   },
   icon: {
     type: String,
-    require: true
+    required: true,
+    default: 'fas fa-dollar-sign',
+  },
+  type: {
+    type: String,
+    required: true,
+    default: '支出'
   }
 })
 

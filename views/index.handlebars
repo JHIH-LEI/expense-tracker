@@ -26,6 +26,7 @@
                             {{!-- 類別圖案 --}}
                             <div class="category-icon">
                                 <i class="{{this.icon}}"></i>
+                                <span class="badge bg-light text-dark">{{this.category}}</span>
                             </div>
                             {{!-- 支出明細 --}}
                             <div class=" text m-5">
@@ -39,7 +40,9 @@
                         </div>
                         {{!-- 功能按鈕 --}}
                         <div class="d-flex justify-content-between align-items-center ms-5">
-                            <a class="btn btn-success ms-2" href="/record/{{ this._id }}/edit">edit</a>
+                            {{!-- 根據紀錄類型決定路由放支出/收入 --}}
+                            <a class="btn btn-success ms-2"
+                                href="/record/{{ this._id }}/edit/{{#is '收入' this.name}}{{this.name}}{{/is}}{{#isnt this.name '收入'}}支出{{/isnt}}">edit</a>
                             <form action="/record/{{ this._id }}?_method=DELETE" method="POST">
                                 <button class="btn btn-danger ms-2" type="submit">delete</button>
                             </form>
@@ -51,6 +54,6 @@
         </ul>
         {{!-- 新增按鈕 --}}
         <a class="btn btn-warning btn-lg fs-1 rounded-circle position-fixed bottom-0 mb-5 end-50%"
-            href="/record/new">記錄支出</a>
+            href="/record/new/支出">開始記帳</a>
     </div>
 </div>
