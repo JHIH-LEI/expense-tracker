@@ -14,7 +14,7 @@ const categorySchema = new Schema({
   type: {
     type: String,
     required: true,
-    default: 'expense'
+    default: '支出'
   }
 })
 

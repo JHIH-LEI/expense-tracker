@@ -25,7 +25,7 @@ db.once('open', () => {
     },
     {
       name: '薪水',
-      type: 'income'
+      type: '收入'
     }
   ]
   Category.create(data)
