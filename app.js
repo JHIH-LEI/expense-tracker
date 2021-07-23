@@ -145,7 +145,9 @@ app.put('/record/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/category', (req, res) => {
+app.post('/category/:type', (req, res) => {
+  // 類別類型
+  const type = req.params.type
   const newName = req.body.newCategory
   // icon的網址，取得使用者勾選的項目，其value(也就是類別圖示)
   const icon = req.body.icon
@@ -167,7 +169,7 @@ app.post('/category', (req, res) => {
         // 如果類別尚未存在
       } else {
         // 儲存新類別到資料庫，返回上一頁
-        Category.create({ name: newName, icon })
+        Category.create({ name: newName, icon, type: type })
           .then(() => {
             req.flash('success', `${newName}   已經新增到類別當中！`)
             res.redirect(pathname)

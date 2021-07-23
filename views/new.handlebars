@@ -57,7 +57,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/category" method="post" class="needs-validation" novalidate>
+        <form action="/category/{{ type }}" method="post" class="needs-validation" novalidate>
           <div class="mb-3">
             <div class="input-group has-validation">
               <input type="text" class="form-control" id="recipient-name" name="newCategory" placeholder="類別名稱..."
