@@ -78,13 +78,14 @@ app.get('/:sortBy', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.get('/record/new', (req, res) => {
+app.get('/record/new/:type', (req, res) => {
+  const type = req.params.type
   let categoryList = []
   Category.find()
     .lean()
     .then(category => {
       categoryList = category
-      res.render('new', { categoryList, iconsClass, error: req.flash('error'), success: req.flash('success') })
+      res.render('new', { type, categoryList, iconsClass, error: req.flash('error'), success: req.flash('success') })
     })
     .catch(error => console.log(error))
 })
