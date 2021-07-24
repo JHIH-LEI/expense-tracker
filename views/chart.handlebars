@@ -1,0 +1,82 @@
+{{!-- 為了讓js可以拿到資料給chart.js，所以放這，在用DOM取得值 --}}
+<div id="recordCategoryList" class="d-none">{{ recordCategoryList }}</div>
+<div id="recordAmountList" class="d-none">{{ recordAmountList }}</div>
+<div id="chartTitle" class="d-none">{{ type }}類別比</div>
+
+{{!-- 切換圖表資料來源 --}}
+<div class="container-fluid w-50 h-50 mt-5">
+  <div class="btn-group d-flex justify-content-center">
+    <a href="/chart/?type=支出" class="btn btn-primary active" aria-current="page">支出</a>
+    <a href="/chart/?type=收入" class="btn btn-primary">收入</a>
+  </div>
+  {{!-- 圖表 --}}
+  <canvas id="myChart" class="mt-5" aria-label="類別比"></canvas>
+</div>
+
+{{!-- 圖表相關設定，及資料獲取 --}}
+<script>
+  //獲取圖表所需資料,來自mongodb
+  let recordCategoryList = document.getElementById('recordCategoryList').innerText
+  let recordAmountList = document.getElementById('recordAmountList').innerText
+  const chartTitle = document.getElementById('chartTitle').innerText
+
+  //將像是陣列的字串轉成js可以操作的格式（為了有效傳入陣列，在路由處理時將其轉為字串，現在轉回來）
+  recordCategoryList = JSON.parse(recordCategoryList)
+  recordAmountList = JSON.parse(recordAmountList)
+
+  //將重複的類別其值合併
+  let obj = recordCategoryList.reduce(function (a, b, i) {
+    if (!a.hasOwnProperty(b)) {
+      a[b] = 0;
+    }
+    a[b] += Number(recordAmountList[i]);
+    return a;
+  }, {});
+
+  //重新復值
+  recordCategoryList = Object.keys(obj);
+  recordAmountList = Object.values(obj);
+
+  //建立圖表及設定
+  let myChart = document.getElementById('myChart').getContext('2d')
+  Chart.defaults.font.size = 18;
+  let barChart = new Chart(
+    myChart, {
+    type: 'pie',
+    data: {
+      labels: recordCategoryList,
+      datasets: [{
+        label: '金額',
+        data: recordAmountList,
+        backgroundColor: [getRgba(), getRgba(), getRgba(), getRgba(), getRgba(), getRgba(), getRgba(), getRgba(), getRgba()],
+        hoverBorderWidth: 3,
+        hoverBorderColor: '#000',
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: chartTitle,
+          font: {
+            size: 22
+          }
+        },
+        legend: {
+          display: true,
+          position: 'right'
+        }
+      }
+    }
+  }
+  )
+
+  function getRgba() {
+    let randomColorR = Math.floor((Math.random() * 255) + 1)
+    let randomColorG = Math.floor((Math.random() * 255) + 1)
+    let randomColorB = Math.floor((Math.random() * 255) + 1)
+    let rgba = `rgb(${randomColorR},${randomColorG},${randomColorB},0.6)`
+    return rgba
+  }
+
+</script>
