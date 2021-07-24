@@ -1,7 +1,8 @@
 const db = require('../../config/mongoose')
 const Category = require('../category')
 
-db.once('open', () => {
+db.once('open', async () => {
+  console.log('categorySeeder is connect!')
   const data = [
     {
       name: '家居物業',
@@ -28,5 +29,6 @@ db.once('open', () => {
       type: '收入'
     }
   ]
-  Category.create(data)
+  await Category.create(data)
+  db.close()
 })
