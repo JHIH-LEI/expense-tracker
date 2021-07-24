@@ -43,12 +43,32 @@
                             {{!-- 根據紀錄類型決定路由放支出/收入 --}}
                             <a class="btn btn-success ms-2"
                                 href="/record/{{ this._id }}/edit/{{#is '收入' this.name}}{{this.name}}{{/is}}{{#isnt this.name '收入'}}支出{{/isnt}}">edit</a>
-                            <form action="/record/{{ this._id }}?_method=DELETE" method="POST">
-                                <button class="btn btn-danger ms-2" type="submit">delete</button>
-                            </form>
+                            <button class="btn btn-danger ms-2" type="button" data-bs-toggle="modal"
+                                data-bs-target="#deleteConfirm">delete</button>
                         </div>
                     </div>
                 </li>
+            </div>
+            {{!-- model --}}
+            <div class="modal fade" id="deleteConfirm" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">刪除資料確認</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <span class="text-warning mx-2">{{ this.name }}</span>
+                            <span>刪除以後就找不回來了喔...確定要刪除嗎？</span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <form action="/record/{{ this._id }}?_method=DELETE" method="POST">
+                                <button class="btn btn-danger" type="submit">delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
             {{/each}}
         </ul>
@@ -57,3 +77,5 @@
             href="/record/new/支出">開始記帳</a>
     </div>
 </div>
+
+<form action="/record/{{ this._id }}?_method=DELETE" method="POST">
