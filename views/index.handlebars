@@ -75,7 +75,16 @@
         {{!-- 新增按鈕 --}}
         <a class="btn btn-warning btn-lg fs-1 rounded-circle position-fixed bottom-0 mb-5 end-50%"
             href="/record/new/支出">開始記帳</a>
+        {{!-- 返回頂端按鈕 --}}
+        <button class="btn btn-secondary position-fixed bottom-0 mb-5 end-0" onclick="topFunction()"
+            id="scrollTop">Top</button>
     </div>
 </div>
 
-<form action="/record/{{ this._id }}?_method=DELETE" method="POST">
+<script>
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+</script>
