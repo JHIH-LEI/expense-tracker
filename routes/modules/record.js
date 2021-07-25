@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const moment = require('moment')
 
 const Category = require('../../models/category')
 const Record = require('../../models/record')
@@ -16,13 +17,15 @@ router.post('/new', (req, res) => {
 })
 
 router.get('/new/:type', (req, res) => {
+  let toDay = new Date() //獲取今天日期
+  toDay = dateFormat(toDay) //整理成yyyy-mm-dd格式
   const type = req.params.type
   let categoryList = []
   Category.find()
     .lean()
     .then(category => {
       categoryList = category
-      res.render('new', { type, categoryList, iconsClass, error: req.flash('error'), success: req.flash('success') })
+      res.render('new', { type, toDay, categoryList, iconsClass, error: req.flash('error'), success: req.flash('success') })
     })
     .catch(error => console.log(error))
 })
