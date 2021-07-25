@@ -13,7 +13,7 @@ const cookieParser = require('cookie-parser')
 const flash = require('connect-flash')
 
 require('./config/mongoose')
-const port = 3000
+const port = process.env.port || 3000
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
