@@ -4,7 +4,7 @@ const moment = require('moment')
 
 const Category = require('../../models/category')
 const Record = require('../../models/record')
-const dateFormat = require('../../tools/dateFormat')
+const { dateFormat } = require('../../tools/helper')
 const iconsClass = require('../../categoryIcon')
 
 router.post('/new', (req, res) => {
