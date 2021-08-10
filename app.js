@@ -8,12 +8,13 @@ const bodyParser = require('body-parser')
 const helpers = require('handlebars-helpers')
 const comparison = helpers.comparison()
 // 使用flash
+require('dotenv').config()
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const flash = require('connect-flash')
 
 require('./config/mongoose')
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
