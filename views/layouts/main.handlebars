@@ -16,8 +16,18 @@
   <header>
     <nav class="navbar navbar-light bg-light">
       <div class="container-fluid">
-        <a href="/" class="navbar-brand"><i class="fas fa-wallet"></i>記帳簿</a>
-        <a href="/chart?type=支出" class="navbar-brand"><i class="fas fa-chart-pie"></i></i>圖表</a>
+        <div class="main-function">
+          <a href="/" class="navbar-brand"><i class="fas fa-wallet m-2"></i>{{#if
+            isAuthenticated}}{{user.name}}{{/if}}記帳簿</a>
+          <a href="/chart?type=支出" class="navbar-brand"><i class="fas fa-chart-pie"></i></i>圖表</a>
+        </div>
+        <div class="user-btn">
+          {{#if isAuthenticated}}
+          <a href="/user/logout" class="btn btn-outline-primary m-2">Logout</a>
+          {{else}}
+          <a href="/user/login" class="btn btn-outline-primary m-2">Login</a>
+          {{/if}}
+        </div>
       </div>
     </nav>
   </header>

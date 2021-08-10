@@ -29,6 +29,11 @@ app.use(session({
 }));
 app.use(flash());
 usePassport(app)
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated() //將驗證結果傳到res，讓前端樣板可用
+  res.locals.user = req.user //將使用者資料傳到res，讓前端樣板可用
+  next()
+})
 app.use(methodOverride('_method'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(routes)
