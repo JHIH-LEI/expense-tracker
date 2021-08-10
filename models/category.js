@@ -15,6 +15,11 @@ const categorySchema = new Schema({
     type: String,
     required: true,
     default: '支出'
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+    require: true
   }
 })
 
