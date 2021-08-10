@@ -8,10 +8,10 @@ const { dateFormat } = require('../../tools/helper')
 const iconsClass = require('../../categoryIcon')
 
 router.post('/new', (req, res) => {
-  const { name, date, category, amount } = req.body
+  const { name, date, category, amount, merchant } = req.body
   // 如果名稱是收入，就存正數，反之為支出，金額改為負數
   let money = name === '收入' ? amount : 0 - amount
-  return Record.create({ name, date, category, amount: money })
+  return Record.create({ name, date, category, amount: money, merchant })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
@@ -47,7 +47,7 @@ router.get('/:id/edit/:type', (req, res) => {
           let money = 0
           money = record.amount < 0 ? record.amount * -1 : record.amount
           const time = dateFormat(record.date)
-          res.render('edit', { type, record, money, time, categoryList, iconsClass, error: req.flash('error'), success: req.flash('success') })
+          res.render('edit', { type, record, money, time, categoryList, iconsClass, merchant: record.merchant, error: req.flash('error'), success: req.flash('success') })
         })
     })
     .catch(error => console.log(error))
@@ -67,7 +67,7 @@ router.delete('/:id', (req, res) => {
 router.put('/:type/:id', (req, res) => {
   // 修改資料前，將支出金額轉負，收入轉正
   const type = req.params.type
-  const { name, date, category, amount } = req.body
+  const { name, date, category, amount, merchant } = req.body
   let money = 0
   // 根據類別類型來調整金額正負(type為收入或支出)
   money = type === '收入' ? amount : 0 - amount
@@ -78,6 +78,7 @@ router.put('/:type/:id', (req, res) => {
       record.date = date
       record.category = category
       record.amount = money
+      record.merchant = merchant
       record.save()
     })
     .then(() => res.redirect('/'))
