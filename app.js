@@ -12,6 +12,7 @@ require('dotenv').config()
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const flash = require('connect-flash')
+const usePassport = require('./config/passport')
 
 require('./config/mongoose')
 const PORT = process.env.PORT
@@ -22,12 +23,12 @@ app.set('view engine', 'handlebars')
 // 使用flash
 app.use(cookieParser());
 app.use(session({
-  secret: 'secret123',
+  secret: process.env.SESSION_SECRET,
   saveUninitialized: true,
   resave: true
 }));
 app.use(flash());
-
+usePassport(app)
 app.use(methodOverride('_method'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(routes)
