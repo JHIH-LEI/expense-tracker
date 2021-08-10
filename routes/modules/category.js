@@ -4,6 +4,8 @@ const router = express.Router()
 const Category = require('../../models/category')
 
 router.post('/:type', (req, res) => {
+  //類別所屬使用者
+  const userId = req.user._id
   // 類別類型
   const type = req.params.type
   const newName = req.body.newCategory
@@ -13,7 +15,7 @@ router.post('/:type', (req, res) => {
   const url = req.headers.referer
   const pathname = new URL(url).pathname
   // 檢查類別是否已存在，如果存在回傳true，用then是因為返回的是未實現的promise
-  Category.exists({ name: newName })
+  Category.exists({ name: newName, userId })
     .then(boolean => {
       //如果類別已存在
       if (boolean) {
@@ -27,7 +29,7 @@ router.post('/:type', (req, res) => {
         // 如果類別尚未存在
       } else {
         // 儲存新類別到資料庫，返回上一頁
-        Category.create({ name: newName, icon, type: type })
+        Category.create({ name: newName, icon, type: type, userId })
           .then(() => {
             req.flash('success', `${newName}   已經新增到類別當中！`)
             res.redirect(pathname)

@@ -8,11 +8,12 @@ const { getIcon } = require('../../tools/helper')
 
 router.get('/', (req, res) => {
   let categoryList = []
-  Category.find()
+  const userId = req.user._id
+  Category.find({ userId })
     .lean()
     .then(category => categoryList = category)
     .then(() => {
-      Record.find()
+      Record.find({ userId })
         .lean()
         .sort({ date: 'desc' })
         .then(records => {
@@ -30,12 +31,13 @@ router.get('/', (req, res) => {
 
 router.get('/:sortBy', (req, res) => {
   const sortBy = req.params.sortBy
+  const userId = req.user._id
   let categoryList = []
-  Category.find()
+  Category.find({ userId })
     .lean()
     .then(category => categoryList = category)
     .then(() => {
-      Record.find({ category: sortBy })
+      Record.find({ category: sortBy, userId })
         .lean()
         .sort({ date: 'desc' })
         .then(records => {
