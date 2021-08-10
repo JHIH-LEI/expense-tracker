@@ -34,7 +34,9 @@
         data-bs-whatever="@mdo">+</button>
     </div>
     {{!-- 商家、日期輸入匡 --}}
+    {{#is type '支出'}}
     <input type="text" class="form-control my-4" name="merchant" id="merchant" placeholder="輸入商家名稱(選填)">
+    {{/is}}
     <input id="date" class="form-control my-4" type="date" name="date" value={{ toDay }}>
     <div class="input-group has-validation">
       <input class="form-control" type="number" name="amount" id="amount" inputmode="numeric" placeholder="總額" min="0"

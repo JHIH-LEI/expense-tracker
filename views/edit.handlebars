@@ -25,8 +25,10 @@
         {{/each}}
       </select>
     </div>
+    {{#is '支出' type}}
     <input type="text" class="form-control my-4" name="merchant" id="merchant" placeholder="輸入商家名稱(選填)"
       value="{{ merchant }}">
+    {{/is}}
     {{!-- 選擇支出日期 --}}
     <input id="date" class="form-control my-4" type="date" name="date" value="{{time}}">
     <div class=" input-group has-validation">
