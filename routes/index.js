@@ -5,11 +5,12 @@ const record = require('./modules/record')
 const category = require('./modules/category')
 const chart = require('./modules/chart')
 const user = require('./modules/user')
+const { authenticator } = require('../middleware/auth')
 
-router.use('/chart', chart)
-router.use('/record', record)
-router.use('/category', category)
+router.use('/chart', authenticator, chart)
+router.use('/record', authenticator, record)
+router.use('/category', authenticator, category)
 router.use('/user', user)
-router.use('/', home)
+router.use('/', authenticator, home)
 
 module.exports = router
