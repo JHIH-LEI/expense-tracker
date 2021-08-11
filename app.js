@@ -24,14 +24,17 @@ app.set('view engine', 'handlebars')
 app.use(cookieParser());
 app.use(session({
   secret: process.env.SESSION_SECRET,
+  resave: false,
   saveUninitialized: true,
-  resave: true
 }));
-app.use(flash());
 usePassport(app)
+app.use(flash());
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.isAuthenticated() //將驗證結果傳到res，讓前端樣板可用
   res.locals.user = req.user //將使用者資料傳到res，讓前端樣板可用
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
+  res.locals.error = req.flash('error')
   next()
 })
 app.use(methodOverride('_method'))
