@@ -21,8 +21,8 @@
                 {{!-- 類別篩選 --}}
                 <select name="category" class="form-select" id="sort-month">
                     <option>全部類別</option>
-                    {{#each categoryList}}
-                    <option value="{{this.name}}" {{#is ../category this.name}}selected{{/is}}>{{this.name}}</option>
+                    {{#each categoryNameList}}
+                    <option value="{{this}}" {{#is ../category this}}selected{{/is}}>{{this}}</option>
                     {{/each}}
                 </select>
             </form>
