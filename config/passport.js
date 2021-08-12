@@ -1,8 +1,10 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
+const GoogleStrategy = require('passport-google-oauth20').Strategy
 const bcrypt = require('bcryptjs')
 const User = require('../models/user')
+const { createAccount } = require('../tools/helper')
 
 module.exports = (app) => {
   // middleware
@@ -39,18 +41,34 @@ module.exports = (app) => {
           if (user) {
             return done(null, user)
           }
-          const randomPassword = Math.random().toString(36).slice(-8)
-          return bcrypt
-            .genSalt(10)
-            .then(salt => bcrypt.hash(randomPassword, salt))
-            .then(hash => {
-              User.create({ email, name, password: hash })
-            })
-            .then(() => done(null, user))
+          user = createAccount(email, name)
+          user
+            .then(user => done(null, user))
         })
         .catch(err => done(err, null))
     }
   ));
+
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CLIENT_CALLBACK
+  },
+    (accessToken, refreshToken, profile, done) => {
+      const { email, name } = profile._json
+      User.findOne({ email })
+        .then(user => {
+          if (user) {
+            return done(null, user)
+          }
+          user = createAccount(email, name)
+          user
+            .then(user => done(null, user))
+        })
+        .catch(err => done(err, null))
+    }
+  ));
+
   // 序列化/反序列化
   passport.serializeUser((user, done) => {
     done(null, user.id);

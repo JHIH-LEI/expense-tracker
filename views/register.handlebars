@@ -38,7 +38,9 @@
             請輸入確認密碼
           </div>
         </div>
-        <button type="submit" class="btn btn-success btn-block">Register</button>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-success ">Register</button>
+        </div>
       </form>
       <p class="lead mt-4">Have Account? <a href="/user/login">Login</a></p>
     </div>
@@ -47,7 +49,6 @@
 
 <script>
   (function () {
-    'use strict'
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     const forms = document.querySelectorAll('.needs-validation')
     // Loop over them and prevent submission
