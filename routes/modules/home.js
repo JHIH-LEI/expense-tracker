@@ -7,10 +7,11 @@ const Record = require('../../models/record')
 const { getIcon, getFilterOptions } = require('../../tools/helper')
 
 router.get('/', (req, res) => {
+  const userId = req.user._id
+  // 要傳到前端的資料：使用者可以篩選的條件
   let categoryNameList = []
   let yearList = []
   let monthList = []
-  const userId = req.user._id
   const filterOptions = getFilterOptions(userId)
   //獲得使用者可選的篩選條件，包含年/月/類別，最後會傳到前端
   filterOptions
@@ -41,13 +42,13 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+  const userId = req.user._id
   // 使用者選擇的篩選條件   
   // req.body = { year: '2020', month: '08', category: 'music' }
   const year = req.body.year === '全部年份' ? { $ne: '' } : Number(req.body.year)
   const month = req.body.month === '全部月份' ? { $ne: '' } : Number(req.body.month)
   const category = req.body.category === '全部類別' ? { $ne: '' } : req.body.category
-  // 使用者可以篩選的條件，要傳到前端
-  const userId = req.user._id
+  // 要傳到前端的資料，有使用者可以篩選的條件以及總金額
   let totalAmount = 0
   let categoryNameList = []
   let yearList = []
