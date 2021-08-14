@@ -7,8 +7,10 @@ const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const helpers = require('handlebars-helpers')
 const comparison = helpers.comparison()
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 // 使用flash
-require('dotenv').config()
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const flash = require('connect-flash')

@@ -2,6 +2,7 @@ const User = require('../models/user')
 const Record = require('../models/record')
 const Category = require('../models/category')
 const bcrypt = require('bcryptjs')
+const defaultCategoryList = require('../categories.json')
 const functions = {
   getIcon: function (recordCategory, categories) {
     //返回該支出的類別物件
@@ -26,6 +27,9 @@ const functions = {
             .then(salt => bcrypt.hash(randomPassword, salt))
             .then(hash => {
               User.create({ email, name, password: hash })
+                .then(user => {
+                  return functions.generateCategory(user._id)  //為帳戶附上預設類別選項
+                })
             })
         }
       })
@@ -69,6 +73,10 @@ const functions = {
         categories.forEach(category => categoryList.push(category.name))
       })
     return categoryList
+  },
+  generateCategory: function (userId) {
+    defaultCategoryList.forEach(category => category.userId = userId)
+    return Category.create(defaultCategoryList)
   }
 }
 
