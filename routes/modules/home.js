@@ -41,7 +41,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+router.post('/filter/record', (req, res) => {
   const userId = req.user._id
   // 使用者選擇的篩選條件   
   // req.body = { year: '2020', month: '08', category: 'music' }
@@ -64,8 +64,12 @@ router.post('/', (req, res) => {
   // 根據篩選條件篩選資料
   Record.aggregate([
     { $match: { userId } }, //篩選出該使用者的資料
-    { $addFields: { "month": { $month: '$date' } } }, //增加月欄位
-    { $addFields: { "year": { $year: '$date' } } },
+    {
+      $addFields: {
+        "month": { $month: '$date' }, //增加月欄位
+        "year": { $year: '$date' } //新增年欄位
+      }
+    },
     { $match: { year } },//篩選出符合使用者選的年份的資料
     { $match: { month } }, //篩選出符合使用者選的月份的資料
     { $match: { category } }
