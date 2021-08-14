@@ -4,10 +4,11 @@ const router = express.Router()
 const Record = require('../../models/record')
 
 router.get('/', (req, res) => {
+  const userId = req.user._id
   const type = req.query.type
   let recordCategoryList = []
   let recordAmountList = []
-  Record.find()
+  Record.find({ userId })
     .lean()
     .then(records => {
       // 依照使用者選擇過濾掉收入or支出類別
