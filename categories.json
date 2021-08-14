@@ -1,0 +1,32 @@
+[
+  {
+    "name": "家居物業",
+    "icon": "fas fa-home",
+    "userId": null
+  },
+  {
+    "name": "交通出行",
+    "icon": "fas fa-shuttle-van",
+    "userId": null
+  },
+  {
+    "name": "休閒娛樂",
+    "icon": "fas fa-grin-beam",
+    "userId": null
+  },
+  {
+    "name": "餐飲食品",
+    "icon": "fas fa-utensils",
+    "userId": null
+  },
+  {
+    "name": "其他",
+    "icon": "fas fa-pen",
+    "userId": null
+  },
+  {
+    "name": "薪水",
+    "type": "收入",
+    "userId": null
+  }
+]
