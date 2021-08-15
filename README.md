@@ -59,7 +59,6 @@ git clone https://github.com/JHIH-LEI/expense-tracker
 cd expense-tracker
 
 3. 安裝 npm 套件
-<img width="1122" alt="截圖 2021-08-15 下午4 36 45" src="https://user-images.githubusercontent.com/66233452/129472374-2f1e5a84-e24c-446a-a75c-14be44ddbc26.png">
 
 在 Terminal 輸入 npm install 指令
 
