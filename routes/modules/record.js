@@ -60,11 +60,10 @@ router.delete('/:id', (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
   const url = req.headers.referer
-  const pathname = new URL(url).pathname
   Record.findOne({ _id, userId })
     .then(record => record.remove())
-    // 返回上一頁，這樣才能避免篩選類別後，再刪除資料後，又回到全部類別
-    .then(() => res.redirect(pathname))
+    // 返回上一頁，這樣才能避免篩選後，再刪除資料後，又回到全部類別，換句話說就是刪除後要保留當前篩選
+    .then(() => res.redirect(url))
     .catch(error => console.log(error))
 })
 
@@ -75,7 +74,7 @@ router.put('/:type/:id', (req, res) => {
   const { name, date, category, amount, merchant } = req.body
   let money = 0
   // 根據類別類型來調整金額正負(type為收入或支出)
-  money = type === '收入' ? amount : 0 - amount
+  money = type === '收入' ? amount : - amount
   const _id = req.params.id
   Record.findOne({ _id, userId })
     .then(record => {

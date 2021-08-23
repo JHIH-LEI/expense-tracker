@@ -41,13 +41,13 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/filter/record', (req, res) => {
+router.get('/filter/record', (req, res) => {
   const userId = req.user._id
   // 使用者選擇的篩選條件   
   // req.body = { year: '2020', month: '08', category: 'music' }
-  const year = req.body.year === '全部年份' ? { $ne: '' } : Number(req.body.year)
-  const month = req.body.month === '全部月份' ? { $ne: '' } : Number(req.body.month)
-  const category = req.body.category === '全部類別' ? { $ne: '' } : req.body.category
+  const year = req.query.year === '全部年份' ? { $ne: '' } : Number(req.query.year)
+  const month = req.query.month === '全部月份' ? { $ne: '' } : Number(req.query.month)
+  const category = req.query.category === '全部類別' ? { $ne: '' } : req.query.category
   // 要傳到前端的資料，有使用者可以篩選的條件以及總金額
   let totalAmount = 0
   let categoryNameList = []
